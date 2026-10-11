@@ -13,20 +13,29 @@
     </div>
     <div id="header-right">
       <button id="header-new-item-btn">Add new item</button>
+      <button id="header-import-btn">Import from .csv</button>
       <button id="header-export-btn">Export to .csv</button>
     </div>
   </header>
   <main>
     <div id="container">
       <!-- JS adds items here -->
+      <div id="no-items-placeholder">
+        <span>No items yet.</span>
+      </div>
     </div>
     <div id="popup-container">
       <form>
         <button id="close-form-btn">X</button>
-        <label for="title-input">Title:</label>
-        <input type="text" name="title-input" id="title-input">
-        <label for="description-input">Description:</label>
-        <textarea name="description-input" id="description-input"></textarea>
+        <div class="form-group">
+          <label for="title-input">Title:</label>
+          <input placeholder="Title" type="text" name="title-input" id="title-input">
+        </div>
+        <div class="form-group">
+          <label for="description-input">Description:</label>
+          <textarea placeholder="Short description here..." name="description-input" id="description-input"></textarea>
+        </div>
+        <label for=""></label>
         <button id="form-submit">Add</button>
       </form>
     </div>
