@@ -3,6 +3,7 @@ const localStorageKey = "todoList";
 let addItemButton = document.getElementById("header-new-item-btn");
 let importItemsBtn = document.getElementById("header-import-btn");
 let exportItemsBtn = document.getElementById("header-export-btn");
+let importFilesInput = document.getElementById("import-file-input");
 
 let popupContainer = document.getElementById("popup-container");
 let closeFormBtn = document.getElementById("close-form-btn");
@@ -55,4 +56,12 @@ closeFormBtn.addEventListener("click", () => {
 addItemButton.addEventListener("click", () => {
   // open popup modal
   popupContainer.style.display = "flex";
+});
+
+importItemsBtn.addEventListener("click", () => {
+  importFilesInput.click();
+});
+
+exportItemsBtn.addEventListener("click", () => {
+  // TODO
 });

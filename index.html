@@ -13,7 +13,10 @@
     </div>
     <div id="header-right">
       <button id="header-new-item-btn">Add new item</button>
-      <button id="header-import-btn">Import from .csv</button>
+      <input style="display: none;" type="file" name="import-file-input" id="import-file-input">
+      <label for="import-file-input">
+        <button id="header-import-btn">Import from .csv</button>
+      </label>
       <button id="header-export-btn">Export to .csv</button>
     </div>
   </header>
@@ -35,7 +38,8 @@
           <label for="description-input">Description:</label>
           <textarea placeholder="Short description here..." name="description-input" id="description-input"></textarea>
         </div>
-        <label for=""></label>
+        <label for="date-input">Finish Date:</label>
+        <input type="date" name="date-input" id="date-input">
         <button id="form-submit">Add</button>
       </form>
     </div>
