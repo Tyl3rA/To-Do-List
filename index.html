@@ -8,14 +8,29 @@
 </head>
 <body>
   <header>
-    <h2>To-Do</h2>
-    <button>Add new item</button>
-    <button>Export to .csv</button>
+    <div id="header-left">
+      <h2>To-Do</h2>
+    </div>
+    <div id="header-right">
+      <button id="header-new-item-btn">Add new item</button>
+      <button id="header-export-btn">Export to .csv</button>
+    </div>
   </header>
   <main>
     <div id="container">
       <!-- JS adds items here -->
     </div>
+    <div id="popup-container">
+      <form>
+        <button id="close-form-btn">X</button>
+        <label for="title-input">Title:</label>
+        <input type="text" name="title-input" id="title-input">
+        <label for="description-input">Description:</label>
+        <textarea name="description-input" id="description-input"></textarea>
+        <button id="form-submit">Add</button>
+      </form>
+    </div>
   </main>
 </body>
+<script src="script.js"></script>
 </html>
