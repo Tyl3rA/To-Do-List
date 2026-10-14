@@ -2,6 +2,7 @@
   --button-bg: rgb(150, 20, 20);
   --body-bg: rgb(20, 20, 20);
   --header-bg: rgb(30, 30, 30);
+  --add-item-bg: rgb(100, 100, 100);
   --default-font: white;
 }
 
@@ -43,6 +44,9 @@ button {
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:hover:not(#close-form-btn) {
     margin-top: -2px;
     transition: margin-top 0.2s fade;
   }
@@ -62,21 +66,33 @@ button {
   transform: translateX(-50%) translateY(-50%);
   display: none;
   z-index: 999;
-  background-color: var(--header-bg);
+  background-color: var(--add-item-bg);
 
   & form {
     display: inherit;
     position: relative;
     height: 100%;
+    width: 100%;
+
+    & input,
+    & textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+    }
 
     & #close-form-btn {
       left: 50%;
+    }
+
+    & button:not(#close-form-btn) {
+      width: 100%;
     }
   }
 
   &, & form {
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
   }
 
@@ -96,7 +112,25 @@ button {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  gap: 20px;
   margin-top: 50px;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 20px - 63px - 50px - 20px);
+  /* 20px is footer height, 63 px is header height on desktop, 50px is margin-top, 20px is margin-botom */
+
+  & .todo-item {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--header-bg);
+    color: white;
+    width: 500px;
+    padding: 20px;
+
+    & .todo-item-title {
+      font-size: 2rem;
+    }
+  }
 
   & #no-items-placeholder {
     background-color: var(--header-bg);
@@ -111,10 +145,15 @@ button {
   }
 }
 
-.todo-item {
+footer {
+  width: 100%;
+  height: 20px;
   display: flex;
-  flex-direction: column;
-  background-color: var(--header-bg);
-  color: white;
-  width: 500px;
+  justify-content: center;
+  align-items: center;
+
+  & a:is(:link, :visited, :active) {
+    color: white;
+    font-size: 0.8rem;
+  }
 }

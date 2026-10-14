@@ -21,7 +21,7 @@ function initLocalStorage() {
 let tasks = loadTasks();
 
 function saveItems(items) {
-  localStorage.setItem(localStorageKey, JSON.stringify(items))
+  localStorage.setItem(localStorageKey, JSON.stringify(items));
 }
 
 function addItem(title, description) {
@@ -76,8 +76,10 @@ function renderItems() {
     container.innerHTML += `<div class="todo-item">
         <span class="todo-item-title">${title}</span>
         <span class="todo-item-description">${description}</span>
-        <label for="todo-checkbox">Completed?</label>
-        <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+        <div>
+          <label for="todo-checkbox">Completed?</label>
+          <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+        </div>
         <button class="todo-edit">Edit</button>
         <button onclick="deleteItem('${existingData[i].id}')" class="todo-delete">Delete</button>
        </div>`;
