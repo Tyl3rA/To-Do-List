@@ -43,6 +43,8 @@ button {
 
   &:hover {
     cursor: pointer;
+    margin-top: -2px;
+    transition: margin-top 0.2s fade;
   }
 }
 
@@ -107,4 +109,12 @@ button {
     justify-content: center;
     align-items: center;
   }
+}
+
+.todo-item {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--header-bg);
+  color: white;
+  width: 500px;
 }

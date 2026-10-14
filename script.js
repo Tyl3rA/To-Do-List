@@ -7,44 +7,86 @@ let importFilesInput = document.getElementById("import-file-input");
 
 let popupContainer = document.getElementById("popup-container");
 let closeFormBtn = document.getElementById("close-form-btn");
+let submitFormBtn = document.getElementById("form-submit");
 let titleInput = document.getElementById("title-input");
 let descriptionInput = document.getElementById("description-input");
+let container = document.getElementById("container");
 
 function initLocalStorage() {
   if (localStorage.getItem(localStorageKey) == null) {
-    localStorage.setItem(localStorageKey, "");
+    localStorage.setItem(localStorageKey, "[]");
   }
 }
 
-function addItemToLocalStorage(title, description, date) {
+let tasks = loadTasks();
+
+function saveItems(items) {
+  localStorage.setItem(localStorageKey, JSON.stringify(items))
+}
+
+function addItem(title, description) {
+  let existingData = loadTasks();
   let item = {
+    id: crypto.randomUUID(),
     title: title,
     description: description,
-    doneByDate: date
+    completed: false,
   }
 
-  const existingData = localStorage.getItem(localStorageKey) || "[]";
-  const list = JSON.stringify(existingData);
-  list.push(item);
-  localStorage.setItem(localStorageKey, list);
+  existingData.push(item);
+
+  saveItems(existingData);
+  renderItems();
 }
 
-function populateUI() {
-  const localStorageData = localStorage.getItem(localStorageKey);
-  let formattedData = JSON.parse(localStorageData);
+// todo editItem later
 
-  if (localStorageData == "" || localStorageData == null) {
+function deleteItem(id) {
+  let existingData = loadTasks();
+  let remaining = existingData.filter(i => i.id !== id);
+  saveItems(remaining);
+  renderItems();
+}
+
+function loadTasks() {
+  try {
+    return JSON.parse(localStorage.getItem(localStorageKey)) || [];
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+}
+
+function renderItems() {
+  container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span></div>`;
+  let localStorageData = loadTasks();
+  if (localStorageData.length === 0) {
     document.getElementById("no-items-placeholder").style.display = "flex";
   } else {
     document.getElementById("no-items-placeholder").style.display = "none";
   }
 
-  // TODO
+
+  let existingData = loadTasks();
+
+  for (let i = 0; i <= existingData.length - 1; i++) {
+    let title = existingData[i].title;
+    let description = existingData[i].description;
+
+    container.innerHTML += `<div class="todo-item">
+        <span class="todo-item-title">${title}</span>
+        <span class="todo-item-description">${description}</span>
+        <label for="todo-checkbox">Completed?</label>
+        <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+        <button class="todo-edit">Edit</button>
+        <button onclick="deleteItem('${existingData[i].id}')" class="todo-delete">Delete</button>
+       </div>`;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initLocalStorage();
-  populateUI();
+  renderItems();
 });
 
 closeFormBtn.addEventListener("click", () => {
@@ -62,6 +104,46 @@ importItemsBtn.addEventListener("click", () => {
   importFilesInput.click();
 });
 
+importFilesInput.addEventListener("change", async function(event) {
+  const file = event.target.files[0];
+  if (!file) {
+    return;
+  }
+
+  try {
+    let text = await file.text();
+
+    let rows = text.split("\n").map(row => {
+      row.split(",");
+    });
+
+    console.log("Parsed imported file:\n", rows);
+
+    // TODO import files into local storage and rebuild UI
+  } catch (error) {
+    console.error("Error in importing file:", error);
+  }
+});
+
 exportItemsBtn.addEventListener("click", () => {
-  // TODO
+  let content = ""; // TODO populate
+  let filename = "todo_data.csv";
+  const blob = new Blob([content], { type: mimeType });
+  const blobUrl = URL.createObject(blob);
+
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+  
+    document.body.appendChild(a);
+    a.click();
+  
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl); 
+});
+
+submitFormBtn.addEventListener("click", () => {
+  let title = titleInput.value;
+  let description = descriptionInput.value;
+  addItem(title, description);
 });

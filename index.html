@@ -13,7 +13,7 @@
     </div>
     <div id="header-right">
       <button id="header-new-item-btn">Add new item</button>
-      <input style="display: none;" type="file" name="import-file-input" id="import-file-input">
+      <input style="display: none;" type="file" name="import-file-input" id="import-file-input" accept=".csv">
       <label for="import-file-input">
         <button id="header-import-btn">Import from .csv</button>
       </label>
@@ -23,6 +23,15 @@
   <main>
     <div id="container">
       <!-- JS adds items here -->
+       <div class="todo-item">
+        <span class="todo-item-title">Title</span>
+        <span class="todo-item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis expedita voluptatum at enim nisi voluptas maxime. Enim, nostrum maiores! Ut placeat corporis eum, magnam minus architecto mollitia reprehenderit sint necessitatibus.</span>
+        <label for="todo-checkbox">Completed?</label>
+        <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+        <button class="todo-edit">Edit</button>
+       </div>
+
+
       <div id="no-items-placeholder">
         <span>No items yet.</span>
       </div>
@@ -38,8 +47,6 @@
           <label for="description-input">Description:</label>
           <textarea placeholder="Short description here..." name="description-input" id="description-input"></textarea>
         </div>
-        <label for="date-input">Finish Date:</label>
-        <input type="date" name="date-input" id="date-input">
         <button id="form-submit">Add</button>
       </form>
     </div>
