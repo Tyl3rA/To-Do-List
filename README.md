@@ -5,7 +5,7 @@ Still very much a work in progress.
 
 ## Features
 - A functional CRUD (create, read, update, delete) system with persistence utilizing localStorage
-- Import / export items as .json (in progress)
+- Import / export items as .json
 - Filtering / search through items (planned)
 
 ## Tech Stack
