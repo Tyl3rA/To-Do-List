@@ -144,8 +144,9 @@ button.secondary {
     height: 20vh;
     font-size: 2rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    flex-direction: column;
   }
 }
 

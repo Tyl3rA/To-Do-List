@@ -1,6 +1,7 @@
 const localStorageKey = "todoList";
 
 let addItemButton = document.getElementById("header-new-item-btn");
+let addItemButton2 = document.getElementById("body-new-item-btn");
 let importItemsBtn = document.getElementById("header-import-btn");
 let exportItemsBtn = document.getElementById("header-export-btn");
 let importFilesInput = document.getElementById("import-file-input");
@@ -120,7 +121,7 @@ function loadTasks() {
 }
 
 function renderItems() {
-  container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span></div>`;
+  container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span><button id="body-new-item-btn">+ Add new item</button></div>`;
   let existingData = loadTasks();
   if (existingData.length === 0) {
     document.getElementById("no-items-placeholder").style.display = "flex";
@@ -184,6 +185,11 @@ addItemButton.addEventListener("click", () => {
   popupContainer.style.display = "flex";
 });
 
+addItemButton2.addEventListener("click", () => {
+  // open popup modal
+  popupContainer.style.display = "flex";
+});
+
 importItemsBtn.addEventListener("click", () => {
   importFilesInput.click();
 });
@@ -198,16 +204,48 @@ importFilesInput.addEventListener("change", async function(event) {
 
   reader.onload = function(f) {
     try {
-      let jsonText = f.target.result;
-      let jsonObject = JSON.parse(jsonText);
+      let existingData = loadTasks();
+      const importedData = JSON.parse(f.target.result);
 
-      console.log("Imported JSON: ", jsonObject);
-      // TODO add imported items to localStorage
+      if (!Array.isArray(importedData)) {
+        alert("JSON file must contain an array of items");
+        return;
+      }
+
+      const validTasks = importedData.filter(item =>
+        item &&
+        typeof item.id == "string" &&
+        typeof item.title == "string" && 
+        typeof item.description == "string"
+      );
+
+      if (validTasks.length !== importedData.length) {
+        alert("Some tasks have been removed for improper formatting");
+      }
+
+      let mergedData = new Map(existingData.map(item => [item.id, item]));
+
+      for (let item of importedData) {
+        mergedData.set(item.id, {
+          ...item,
+          completed: Boolean(item.completed)
+        });
+      }
+
+      saveItems(Array.from(mergedData.values()));
+      renderItems();
     } catch (e) {
       console.error("Error importing JSON: ", e);
       alert("Invalid JSON");
     }
   }
+
+  reader.onerror = function() {
+    alert("Error reading file");
+    return;
+  }
+
+  reader.readAsText(file);
 });
 
 exportItemsBtn.addEventListener("click", () => {
