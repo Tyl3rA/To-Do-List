@@ -23,31 +23,24 @@
   <main>
     <div id="container">
       <!-- JS adds items here -->
-       <div class="todo-item">
-        <span class="todo-item-title">Title</span>
-        <span class="todo-item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis expedita voluptatum at enim nisi voluptas maxime. Enim, nostrum maiores! Ut placeat corporis eum, magnam minus architecto mollitia reprehenderit sint necessitatibus.</span>
-        <label for="todo-checkbox">Completed?</label>
-        <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
-        <button class="todo-edit">Edit</button>
-       </div>
-
-
       <div id="no-items-placeholder">
         <span>No items yet.</span>
       </div>
     </div>
     <div id="popup-container">
       <form>
-        <button id="close-form-btn">X</button>
         <div class="form-group">
           <!-- <label for="title-input">Title:</label> -->
           <input placeholder="Title" type="text" name="title-input" id="title-input">
         </div>
         <div class="form-group">
           <!-- <label for="description-input">Description:</label> -->
-          <textarea rows="12" cols="25" placeholder="Short description here..." name="description-input" id="description-input"></textarea>
+          <textarea rows="5" cols="25" placeholder="Short description here..." name="description-input" id="description-input"></textarea>
         </div>
-        <button id="form-submit">Add</button>
+        <div class="form-group">
+          <button id="form-submit">Add</button>
+          <button id="close-form-btn">Cancel</button>
+        </div>
       </form>
     </div>
   </main>

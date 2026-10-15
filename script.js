@@ -5,7 +5,7 @@ let importItemsBtn = document.getElementById("header-import-btn");
 let exportItemsBtn = document.getElementById("header-export-btn");
 let importFilesInput = document.getElementById("import-file-input");
 
-let popupContainer = document.getElementById("popup-container");
+let popupContainer = document.getElementById("popup-container"); // reused for both adding an item and editing an item
 let closeFormBtn = document.getElementById("close-form-btn");
 let submitFormBtn = document.getElementById("form-submit");
 let titleInput = document.getElementById("title-input");
@@ -25,6 +25,10 @@ function saveItems(items) {
 }
 
 function addItem(title, description) {
+  if (title.trim() == "" || description.trim() == "") {
+    return;
+  }
+
   let existingData = loadTasks();
   let item = {
     id: crypto.randomUUID(),
@@ -39,7 +43,44 @@ function addItem(title, description) {
   renderItems();
 }
 
-// todo editItem later
+let editMode = false;
+
+function openEditModal(id, title, description) {
+  editMode = true;
+  console.log("Edit mode set to true");
+  popupContainer.style.display = "flex";
+  titleInput.value = title;
+  descriptionInput.value = description;
+  submitFormBtn.innerText = "Edit";
+  submitFormBtn.onclick = () => editItem(id);
+}
+
+function closeEditModal() {
+  editMode = false;
+  console.log("Edit mode set to false");
+  popupContainer.style.display = "none";
+  titleInput.value = "";
+  descriptionInput.value = "";
+  submitFormBtn.innerText = "Add";
+  submitFormBtn.onclick = "";
+}
+
+function editItem(id) {
+  let existingData = loadTasks();
+  let title = titleInput.value;
+  let description = descriptionInput.value;
+
+  for (let item of existingData) {
+    if (item.id == id) {
+      item.title = title;
+      item.description = description;
+    }
+  }
+
+  saveItems(existingData);
+  renderItems();
+  closeEditModal();
+}
 
 function deleteItem(id) {
   let existingData = loadTasks();
@@ -59,15 +100,14 @@ function loadTasks() {
 
 function renderItems() {
   container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span></div>`;
-  let localStorageData = loadTasks();
-  if (localStorageData.length === 0) {
+  let existingData = loadTasks();
+  if (existingData.length === 0) {
     document.getElementById("no-items-placeholder").style.display = "flex";
   } else {
     document.getElementById("no-items-placeholder").style.display = "none";
   }
 
 
-  let existingData = loadTasks();
 
   for (let i = 0; i <= existingData.length - 1; i++) {
     let title = existingData[i].title;
@@ -80,8 +120,10 @@ function renderItems() {
           <label for="todo-checkbox">Completed?</label>
           <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
         </div>
-        <button class="todo-edit">Edit</button>
-        <button onclick="deleteItem('${existingData[i].id}')" class="todo-delete">Delete</button>
+        <div>
+          <button onclick="openEditModal('${existingData[i].id}', '${title}', '${description}')" class="todo-edit">Edit</button>
+          <button onclick="deleteItem('${existingData[i].id}')" class="todo-delete">Delete</button>
+        </div>
        </div>`;
   }
 }
@@ -92,9 +134,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 closeFormBtn.addEventListener("click", () => {
-  popupContainer.style.display = "none";
-  titleInput.value = "";
-  descriptionInput.value = "";
+  if (!editMode) {
+    popupContainer.style.display = "none";
+    titleInput.value = "";
+    descriptionInput.value = "";
+  } else {
+    closeEditModal();
+  }
 })
 
 addItemButton.addEventListener("click", () => {
@@ -128,7 +174,7 @@ importFilesInput.addEventListener("change", async function(event) {
 });
 
 exportItemsBtn.addEventListener("click", () => {
-  let content = ""; // TODO populate
+  let content = loadTasks();
   let filename = "todo_data.csv";
   const blob = new Blob([content], { type: mimeType });
   const blobUrl = URL.createObject(blob);
@@ -145,7 +191,9 @@ exportItemsBtn.addEventListener("click", () => {
 });
 
 submitFormBtn.addEventListener("click", () => {
-  let title = titleInput.value;
-  let description = descriptionInput.value;
-  addItem(title, description);
+  if (!editMode) {
+    let title = titleInput.value;
+    let description = descriptionInput.value;
+    addItem(title, description);
+  }
 });

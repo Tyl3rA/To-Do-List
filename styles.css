@@ -44,22 +44,14 @@ button {
 
   &:hover {
     cursor: pointer;
-  }
-
-  &:hover:not(#close-form-btn) {
     margin-top: -2px;
     transition: margin-top 0.2s fade;
   }
 }
 
-#close-form-btn {
-  background: rgb(220, 10, 10);
-  color: white;
-}
-
 #popup-container {
   width: 300px;
-  height: 500px;
+  height: 420px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -67,6 +59,8 @@ button {
   display: none;
   z-index: 999;
   background-color: var(--add-item-bg);
+  padding: 50px;
+  border-radius: 10px;
 
   & form {
     display: inherit;
@@ -81,12 +75,17 @@ button {
       font-size: 1rem;
     }
 
-    & #close-form-btn {
-      left: 50%;
-    }
-
-    & button:not(#close-form-btn) {
+    & div {
       width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 5px;
+
+      & button {
+        width: 100%;
+      }
     }
   }
 
@@ -124,8 +123,9 @@ button {
     gap: 15px;
     background-color: var(--header-bg);
     color: white;
-    width: 500px;
+    width: 350px;
     padding: 20px;
+    border-radius: 20px;
 
     & .todo-item-title {
       font-size: 2rem;
