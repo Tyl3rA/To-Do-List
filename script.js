@@ -89,6 +89,27 @@ function deleteItem(id) {
   renderItems();
 }
 
+function handleCheckboxChange(id, checkbox) {
+  let existingData = loadTasks();
+
+  if (checkbox.checked) {
+    for (let item of existingData) {
+      if (item.id == id) {
+        item.completed = true;
+      }
+    }
+  } else {
+    for (let item of existingData) {
+      if (item.id == id) {
+        item.completed = false;
+      }
+    }
+  }
+
+  saveItems(existingData);
+  renderItems();
+}
+
 function loadTasks() {
   try {
     return JSON.parse(localStorage.getItem(localStorageKey)) || [];
@@ -107,24 +128,39 @@ function renderItems() {
     document.getElementById("no-items-placeholder").style.display = "none";
   }
 
-
-
   for (let i = 0; i <= existingData.length - 1; i++) {
     let title = existingData[i].title;
     let description = existingData[i].description;
+    let id = existingData[i].id;
+    let completed = existingData[i].completed;
 
-    container.innerHTML += `<div class="todo-item">
+    if (completed) {
+      container.innerHTML += `<div class="todo-item">
         <span class="todo-item-title">${title}</span>
         <span class="todo-item-description">${description}</span>
         <div>
           <label for="todo-checkbox">Completed?</label>
-          <input type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+          <input onchange="handleCheckboxChange('${id}', this)" type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox" checked>
         </div>
         <div>
-          <button onclick="openEditModal('${existingData[i].id}', '${title}', '${description}')" class="todo-edit">Edit</button>
-          <button onclick="deleteItem('${existingData[i].id}')" class="todo-delete">Delete</button>
+          <button class="secondary" onclick="openEditModal('${id}', '${title}', '${description}')" class="todo-edit">Edit</button>
+          <button class="secondary" onclick="deleteItem('${id}')" class="todo-delete">Delete</button>
         </div>
        </div>`;
+    } else {
+      container.innerHTML += `<div class="todo-item">
+        <span class="todo-item-title">${title}</span>
+        <span class="todo-item-description">${description}</span>
+        <div>
+          <label for="todo-checkbox">Completed?</label>
+          <input onchange="handleCheckboxChange('${id}', this)" type="checkbox" name="todo-checkbox" id="todo-checkbox" class="todo-checkbox">
+        </div>
+        <div>
+          <button class="secondary" onclick="openEditModal('${id}', '${title}', '${description}')" class="todo-edit">Edit</button>
+          <button class="secondary" onclick="deleteItem('${id}')" class="todo-delete">Delete</button>
+        </div>
+        </div>`;
+    }
   }
 }
 
