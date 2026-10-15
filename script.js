@@ -211,11 +211,11 @@ importFilesInput.addEventListener("change", async function(event) {
 });
 
 exportItemsBtn.addEventListener("click", () => {
-  let data = loadTasks();
-  let blob = new Blob([jsonString], { type: 'application/json' });
+  let data = JSON.stringify(loadTasks());
+  let blob = new Blob([data], { type: 'application/json' });
   let link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
-  link.download = filename;
+  link.download = "todo_items.json";
 
   link.click();
 
