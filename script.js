@@ -158,36 +158,32 @@ importFilesInput.addEventListener("change", async function(event) {
     return;
   }
 
-  try {
-    let text = await file.text();
+  let reader = new FileReader();
 
-    let rows = text.split("\n").map(row => {
-      row.split(",");
-    });
+  reader.onload = function(f) {
+    try {
+      let jsonText = f.target.result;
+      let jsonObject = JSON.parse(jsonText);
 
-    console.log("Parsed imported file:\n", rows);
-
-    // TODO import files into local storage and rebuild UI
-  } catch (error) {
-    console.error("Error in importing file:", error);
+      console.log("Imported JSON: ", jsonObject);
+      // TODO add imported items to localStorage
+    } catch (e) {
+      console.error("Error importing JSON: ", e);
+      alert("Invalid JSON");
+    }
   }
 });
 
 exportItemsBtn.addEventListener("click", () => {
-  let content = loadTasks();
-  let filename = "todo_data.csv";
-  const blob = new Blob([content], { type: mimeType });
-  const blobUrl = URL.createObject(blob);
+  let data = loadTasks();
+  let blob = new Blob([jsonString], { type: 'application/json' });
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
 
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = filename;
-  
-    document.body.appendChild(a);
-    a.click();
-  
-    document.body.removeChild(a);
-    URL.revokeObjectURL(blobUrl); 
+  link.click();
+
+  URL.revokeObjectURL(url);
 });
 
 submitFormBtn.addEventListener("click", () => {

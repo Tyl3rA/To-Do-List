@@ -13,16 +13,16 @@
     </div>
     <div id="header-right">
       <button id="header-new-item-btn">Add new item</button>
-      <input style="display: none;" type="file" name="import-file-input" id="import-file-input" accept=".csv">
+      <input style="display: none;" type="file" name="import-file-input" id="import-file-input" accept=".json">
       <label for="import-file-input">
-        <button id="header-import-btn">Import from .csv</button>
+        <button class="secondary" id="header-import-btn">Import from .json</button>
       </label>
-      <button id="header-export-btn">Export to .csv</button>
+      <button class="secondary" id="header-export-btn">Export to .json</button>
     </div>
   </header>
   <main>
     <div id="container">
-      <!-- JS adds items here -->
+      <!-- JS adds items here and hides #no-items-placeholder if needed -->
       <div id="no-items-placeholder">
         <span>No items yet.</span>
       </div>
@@ -30,11 +30,9 @@
     <div id="popup-container">
       <form>
         <div class="form-group">
-          <!-- <label for="title-input">Title:</label> -->
           <input placeholder="Title" type="text" name="title-input" id="title-input">
         </div>
         <div class="form-group">
-          <!-- <label for="description-input">Description:</label> -->
           <textarea rows="5" cols="25" placeholder="Short description here..." name="description-input" id="description-input"></textarea>
         </div>
         <div class="form-group">
