@@ -1,11 +1,10 @@
 const localStorageKey = "todoList";
 
 let addItemButton = document.getElementById("header-new-item-btn");
-let addItemButton2 = document.getElementById("body-new-item-btn");
 let importItemsBtn = document.getElementById("header-import-btn");
 let exportItemsBtn = document.getElementById("header-export-btn");
 let importFilesInput = document.getElementById("import-file-input");
-
+// let addItemButton2;
 let popupContainer = document.getElementById("popup-container"); // reused for both adding an item and editing an item
 let closeFormBtn = document.getElementById("close-form-btn");
 let submitFormBtn = document.getElementById("form-submit");
@@ -121,7 +120,9 @@ function loadTasks() {
 }
 
 function renderItems() {
-  container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span><button id="body-new-item-btn">+ Add new item</button></div>`;
+  // container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span><button id="body-new-item-btn">+ Add new item</button></div>`;
+  container.innerHTML = `<div id="no-items-placeholder"><span>No items yet.</span></div>`;
+  // addItemButton2 = document.getElementById("body-new-item-btn"); // has to be in here because it is populated by JS after var declared at top level
   let existingData = loadTasks();
   if (existingData.length === 0) {
     document.getElementById("no-items-placeholder").style.display = "flex";
@@ -158,11 +159,25 @@ function renderItems() {
         </div>
         <div>
           <button class="secondary" onclick="openEditModal('${id}', '${title}', '${description}')" class="todo-edit">Edit</button>
-          <button class="secondary" onclick="deleteItem('${id}')" class="todo-delete">Delete</button>
+          <button class="secondary" onclick="openDeletePopupModal('${id}')" class="todo-delete">Delete</button>
         </div>
         </div>`;
     }
   }
+}
+
+function openDeletePopupModal(id) {
+  a.innerHTML += `
+    <div id="delete-popup-container">
+      <span id="delete-popup-container-text">Are you sure you want to delete this item?</span>
+      <button onclick="closeDeletePopup()" id="delete-button-cancel">Cancel</button>
+      <button onclick="deleteItem('${id}')" id="proceed-button-cancel">Proceed</button>
+    </div>
+  `
+}
+
+function closeDeletePopup() {
+  document.getElementById("delete-popup-container").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -185,10 +200,10 @@ addItemButton.addEventListener("click", () => {
   popupContainer.style.display = "flex";
 });
 
-addItemButton2.addEventListener("click", () => {
+// addItemButton2.addEventListener("click", () => {
   // open popup modal
-  popupContainer.style.display = "flex";
-});
+  // popupContainer.style.display = "flex";
+// });
 
 importItemsBtn.addEventListener("click", () => {
   importFilesInput.click();

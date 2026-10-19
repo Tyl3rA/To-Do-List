@@ -1,9 +1,11 @@
 :root {
+  color-scheme: light dark;
   --button-bg: rgb(150, 20, 20);
-  --body-bg: rgb(20, 20, 20);
-  --header-bg: rgb(30, 30, 30);
-  --add-item-bg: rgb(100, 100, 100);
-  --default-font: white;
+  --body-bg: light-dark(rgb(240, 240, 240), rgb(20, 20, 20));
+  --header-bg: light-dark(rgb(210, 210, 210), rgb(30, 30, 30));
+  --add-item-bg: light-dark(rgb(150, 150, 150), rgb(100, 100, 100));
+  --default-font: light-dark(black, white);
+  --popup-pseudo-bg: light-dark(rgba(100, 100, 100, 0.8), rgba(0, 0, 0, 0.8))
 }
 
 * {
@@ -51,6 +53,24 @@ button.secondary {
   border: 2px var(--button-bg) solid;
   background-color: transparent;
   color: var(--button-bg);
+}
+
+#delete-popup-container {
+  height: 120px;
+  width: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: none;
+  z-index: 999;
+  background-color: var(--add-item-bg);
+  padding: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
 }
 
 #popup-container {
@@ -106,7 +126,7 @@ button.secondary {
     position: absolute;
     top: -300%;
     left: -300%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--popup-pseudo-bg);
   }
 }
 
@@ -126,7 +146,7 @@ button.secondary {
     flex-direction: column;
     gap: 15px;
     background-color: var(--header-bg);
-    color: white;
+    color: var(--default-font);
     width: 350px;
     padding: 20px;
     border-radius: 20px;
@@ -138,7 +158,7 @@ button.secondary {
 
   & #no-items-placeholder {
     background-color: var(--header-bg);
-    color: white;
+    color: var(--default-font);
     border-radius: 20px;
     width: 20vw;
     height: 20vh;
@@ -158,7 +178,7 @@ footer {
   align-items: center;
 
   & a:is(:link, :visited, :active) {
-    color: white;
+    color: var(--default-font);
     font-size: 0.8rem;
   }
 }
