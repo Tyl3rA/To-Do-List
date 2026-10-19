@@ -1,5 +1,5 @@
 # To-Do List
-A simple web based to-do list to practice my localStorage and data import / export skills. Features a fully functional .json import / export of your saved items, as well as localStorage persistence.
+A simple web based to-do list to practice my localStorage and data import / export skills. Features a fully functional .json import / export of your saved items, light and dark mode detection and support, as well as localStorage persistence.
 
 ## How to demo
 Open <a href="https://tyl3ra.github.io/To-Do-List/" target="_blank">this link</a> in your web browser to try it out.
