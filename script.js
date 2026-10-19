@@ -82,11 +82,21 @@ function editItem(id) {
   closeEditModal();
 }
 
+function closeDeletePopup() {
+  document.getElementById("delete-popup-container").style.display = "none";
+}
+
 function deleteItem(id) {
   let existingData = loadTasks();
   let remaining = existingData.filter(i => i.id !== id);
   saveItems(remaining);
+  closeDeletePopup();
   renderItems();
+}
+
+function openDeletePopupModal(id) {
+  document.getElementById("delete-popup-container").style.display = "flex";
+  document.getElementById("delete-popup-container-btn-container").innerHTML = `<button onclick="closeDeletePopup()" id="delete-button-cancel">Cancel</button><button class="secondary" onclick="deleteItem('${id}')" id="proceed-button-cancel">Proceed</button>`
 }
 
 function handleCheckboxChange(id, checkbox) {
@@ -164,20 +174,6 @@ function renderItems() {
         </div>`;
     }
   }
-}
-
-function openDeletePopupModal(id) {
-  a.innerHTML += `
-    <div id="delete-popup-container">
-      <span id="delete-popup-container-text">Are you sure you want to delete this item?</span>
-      <button onclick="closeDeletePopup()" id="delete-button-cancel">Cancel</button>
-      <button onclick="deleteItem('${id}')" id="proceed-button-cancel">Proceed</button>
-    </div>
-  `
-}
-
-function closeDeletePopup() {
-  document.getElementById("delete-popup-container").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
